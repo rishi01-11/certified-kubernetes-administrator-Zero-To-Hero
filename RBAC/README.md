@@ -169,5 +169,50 @@ kubectl get clusterrolebinding
 kubectl auth can-i get secret --as riya -A
 ```
 
+
+
+
+###The reference role & rolebinding for Kuberenetes dashboard managed by helm.
+
+# kubectl describe rolebinding kubernetes-dashboard -n kubernetes-dashboard
+Name:         kubernetes-dashboard
+Labels:       app.kubernetes.io/instance=kubernetes-dashboard
+              app.kubernetes.io/managed-by=Helm
+              app.kubernetes.io/name=kubernetes-dashboard
+              app.kubernetes.io/version=2.6.1
+              helm.sh/chart=kubernetes-dashboard-5.10.0
+Annotations:  meta.helm.sh/release-name: kubernetes-dashboard
+              meta.helm.sh/release-namespace: kubernetes-dashboard
+Role:
+  Kind:  Role
+  Name:  kubernetes-dashboard
+Subjects:
+  Kind            Name                  Namespace
+  ----            ----                  ---------
+  ServiceAccount  kubernetes-dashboard  kubernetes-dashboard
+# kubectl describe role kubernetes-dashboard -n kubernetes-dashboard
+Name:         kubernetes-dashboard
+Labels:       app.kubernetes.io/instance=kubernetes-dashboard
+              app.kubernetes.io/managed-by=Helm
+              app.kubernetes.io/name=kubernetes-dashboard
+              app.kubernetes.io/version=2.6.1
+              helm.sh/chart=kubernetes-dashboard-5.10.0
+Annotations:  meta.helm.sh/release-name: kubernetes-dashboard
+              meta.helm.sh/release-namespace: kubernetes-dashboard
+PolicyRule:
+  Resources       Non-Resource URLs  Resource Names                     Verbs
+  ---------       -----------------  --------------                     -----
+  secrets         []                 [kubernetes-dashboard-certs]       [get update delete]
+  secrets         []                 [kubernetes-dashboard-csrf]        [get update delete]
+  secrets         []                 [kubernetes-dashboard-key-holder]  [get update delete]
+  configmaps      []                 [kubernetes-dashboard-settings]    [get update]
+  services/proxy  []                 [dashboard-metrics-scraper]        [get]
+  services/proxy  []                 [heapster]                         [get]
+  services/proxy  []                 [http:dashboard-metrics-scraper]   [get]
+  services/proxy  []                 [http:heapster:]                   [get]
+  services/proxy  []                 [https:heapster:]                  [get]
+  services        []                 [dashboard-metrics-scraper]        [proxy]
+  services        []                 [heapster]                         [proxy]
+
 ## Conclusion
 In this guide, we have learned how to implement RBAC (Role-Based Access Control) in a Kubernetes cluster by creating roles, cluster roles, role bindings, and cluster role bindings. By applying the provided YAML files and using the kubectl commands, you can easily set up and manage access control and permissions for users within your Kubernetes environment. 
